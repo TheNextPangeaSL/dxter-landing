@@ -3,325 +3,362 @@ import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 function formatDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 }
 ---
 
 <Layout
-  title="Blog – DxTER"
-  description="Insights on AI-driven Design of Experiments, Bayesian optimization, and smarter R&D workflows from the DxTER team."
+    title="Blog – DxTER"
+    description="Insights on AI-driven Design of Experiments, Bayesian optimization, and smarter R&D workflows from the DxTER team."
 >
-  <!-- Navigation -->
-  <nav
-    slot="nav"
-    class="fixed top-0 inset-x-0 z-50 nav-blur border-b border-surface-300/60"
-    id="navbar"
-  >
-    <div
-      class="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-3.5"
+    <!-- Navigation -->
+    <nav
+        slot="nav"
+        class="fixed top-0 inset-x-0 z-50 nav-blur border-b border-surface-300/60"
+        id="navbar"
     >
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2.5 group">
-        <img
-          src="/images/dxter-logo-noclaim-pos.png"
-          alt="DxTER"
-          class="h-9 w-auto"
-        />
-      </a>
+        <div
+            class="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-3.5"
+        >
+            <!-- Logo -->
+            <a
+                href={import.meta.env.BASE_URL}
+                class="flex items-center gap-2.5 group"
+            >
+                <img
+                    src={`${import.meta.env.BASE_URL}images/dxter-logo-noclaim-pos.png`}
+                    alt="DxTER"
+                    class="h-9 w-auto"
+                />
+            </a>
 
-      <!-- Desktop Nav Links -->
-      <div
-        class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500"
-      >
-        <a href="/#features" class="hover:text-dxter-700 transition-colors"
-          >Features</a
-        >
-        <a href="/#use-cases" class="hover:text-dxter-700 transition-colors"
-          >Use Cases</a
-        >
-        <a href="/#how-it-works" class="hover:text-dxter-700 transition-colors"
-          >How it works</a
-        >
-        <a href="/blog" class="text-dxter-700 font-semibold">Blog</a>
-        <a href="/#faq" class="hover:text-dxter-700 transition-colors">FAQ</a>
-        <a
-          href="/#contact"
-          class="btn-dxter !py-2.5 !px-5 !text-sm !rounded-lg">Contact Us</a
-        >
-        <a
-          href="https://app.dxter.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-dxter-outline !py-2.5 !px-5 !text-sm !rounded-lg"
-        >
-          Sign in
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"
-            ></path>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Mobile menu button -->
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-100 transition-colors"
-        aria-label="Toggle menu"
-      >
-        <svg
-          class="w-5 h-5 text-slate-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Mobile menu -->
-    <div
-      id="mobile-menu"
-      class="hidden md:hidden border-t border-surface-300/60 bg-white px-6 py-4"
-    >
-      <div class="flex flex-col gap-3 text-sm font-medium text-slate-600">
-        <a
-          href="/#features"
-          class="py-2 hover:text-dxter-700 transition-colors">Features</a
-        >
-        <a
-          href="/#use-cases"
-          class="py-2 hover:text-dxter-700 transition-colors">Use Cases</a
-        >
-        <a
-          href="/#how-it-works"
-          class="py-2 hover:text-dxter-700 transition-colors">How it works</a
-        >
-        <a href="/blog" class="py-2 text-dxter-700 font-semibold">Blog</a>
-        <a href="/#faq" class="py-2 hover:text-dxter-700 transition-colors"
-          >FAQ</a
-        >
-        <a href="/#contact" class="btn-dxter !text-sm mt-2">Contact Us</a>
-        <a
-          href="https://app.dxter.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-dxter-outline !text-sm mt-1"
-        >
-          Sign in
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"
-            ></path>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Blog Header -->
-  <section class="pt-32 pb-12 relative overflow-hidden grid-pattern">
-    <!-- Decorative glows -->
-    <div
-      class="hero-glow w-[400px] h-[400px] bg-dxter-300 top-[-15%] right-[-5%]"
-    >
-    </div>
-    <div
-      class="hero-glow w-[300px] h-[300px] bg-dxter-400 bottom-[-20%] left-[-8%]"
-    >
-    </div>
-
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div class="max-w-3xl">
-        <div class="section-label mb-6 animate-fade-in">
-          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
-              clip-rule="evenodd"></path>
-            <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"></path>
-          </svg>
-          Blog
-        </div>
-
-        <h1
-          class="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight mb-4 animate-slide-up"
-        >
-          Insights & <span class="gradient-text">Ideas</span>
-        </h1>
-
-        <p
-          class="text-lg text-slate-500 leading-relaxed animate-slide-up"
-          style="animation-delay:0.15s; opacity:0;"
-        >
-          Thoughts on AI-driven experimentation, Bayesian optimization, and the
-          future of R&D — from the DxTER team and community.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Blog Posts Grid -->
-  <section class="pb-24">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      {
-        posts.length === 0 ? (
-          <div class="text-center py-20">
-            <p class="text-slate-400 text-lg">
-              No posts published yet. Check back soon!
-            </p>
-          </div>
-        ) : (
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post, index) => (
-              <a
-                href={`/blog/${post.id}`}
-                class:list={[
-                  "group block reveal",
-                  `reveal-delay-${Math.min(index + 1, 4)}`,
-                ]}
-              >
-                <article class="feature-card h-full flex flex-col !p-0 overflow-hidden">
-                  {/* Post Image or Gradient Placeholder */}
-                  <div class="relative h-48 overflow-hidden bg-gradient-to-br from-dxter-600 to-dxter-800">
-                    <div class="absolute inset-0 flex items-center justify-center opacity-20">
-                      <svg
-                        class="w-24 h-24 text-white"
+            <!-- Desktop Nav Links -->
+            <div
+                class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500"
+            >
+                <a
+                    href={`${import.meta.env.BASE_URL}#features`}
+                    class="hover:text-dxter-700 transition-colors">Features</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#use-cases`}
+                    class="hover:text-dxter-700 transition-colors">Use Cases</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#how-it-works`}
+                    class="hover:text-dxter-700 transition-colors"
+                    >How it works</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}blog`}
+                    class="text-dxter-700 font-semibold">Blog</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#faq`}
+                    class="hover:text-dxter-700 transition-colors">FAQ</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#contact`}
+                    class="btn-dxter !py-2.5 !px-5 !text-sm !rounded-lg"
+                    >Contact Us</a
+                >
+                <a
+                    href="https://app.dxter.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-dxter-outline !py-2.5 !px-5 !text-sm !rounded-lg"
+                >
+                    Sign in
+                    <svg
+                        class="w-4 h-4"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="0.5"
-                      >
+                        stroke-width="2.5"
+                    >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47 2.47a2.25 2.25 0 01-1.59.659H9.06a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V6.75a2.25 2.25 0 00-2.25-2.25h-9.5A2.25 2.25 0 005 6.75v7.75"
-                        />
-                      </svg>
-                    </div>
-                    {/* Decorative pattern */}
-                    <div class="absolute inset-0 grid-pattern opacity-30" />
-                    {/* Hover overlay */}
-                    <div class="absolute inset-0 bg-dxter-700/0 group-hover:bg-dxter-700/20 transition-colors duration-300" />
-                  </div>
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"
+                        ></path>
+                    </svg>
+                </a>
+            </div>
 
-                  {/* Content */}
-                  <div class="flex flex-col flex-1 p-6">
-                    {/* Tags */}
-                    {post.data.tags && post.data.tags.length > 0 && (
-                      <div class="flex flex-wrap gap-2 mb-3">
-                        {post.data.tags.slice(0, 2).map((tag) => (
-                          <span class="inline-block text-xs font-medium text-dxter-700 bg-dxter-50 border border-dxter-200/60 rounded-full px-2.5 py-0.5">
-                            {tag}
-                          </span>
+            <!-- Mobile menu button -->
+            <button
+                id="mobile-menu-btn"
+                class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-100 transition-colors"
+                aria-label="Toggle menu"
+            >
+                <svg
+                    class="w-5 h-5 text-slate-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div
+            id="mobile-menu"
+            class="hidden md:hidden border-t border-surface-300/60 bg-white px-6 py-4"
+        >
+            <div class="flex flex-col gap-3 text-sm font-medium text-slate-600">
+                <a
+                    href={`${import.meta.env.BASE_URL}#features`}
+                    class="py-2 hover:text-dxter-700 transition-colors"
+                    >Features</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#use-cases`}
+                    class="py-2 hover:text-dxter-700 transition-colors"
+                    >Use Cases</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#how-it-works`}
+                    class="py-2 hover:text-dxter-700 transition-colors"
+                    >How it works</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}blog`}
+                    class="py-2 text-dxter-700 font-semibold">Blog</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#faq`}
+                    class="py-2 hover:text-dxter-700 transition-colors">FAQ</a
+                >
+                <a
+                    href={`${import.meta.env.BASE_URL}#contact`}
+                    class="btn-dxter !text-sm mt-2">Contact Us</a
+                >
+                <a
+                    href="https://app.dxter.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-dxter-outline !text-sm mt-1"
+                >
+                    Sign in
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"
+                        ></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="pt-32 pb-12 relative overflow-hidden grid-pattern">
+        <!-- Decorative glows -->
+        <div
+            class="hero-glow w-[400px] h-[400px] bg-dxter-300 top-[-15%] right-[-5%]"
+        >
+        </div>
+        <div
+            class="hero-glow w-[300px] h-[300px] bg-dxter-400 bottom-[-20%] left-[-8%]"
+        >
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="max-w-3xl">
+                <div class="section-label mb-6 animate-fade-in">
+                    <svg
+                        class="w-3.5 h-3.5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                            clip-rule="evenodd"></path>
+                        <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"
+                        ></path>
+                    </svg>
+                    Blog
+                </div>
+
+                <h1
+                    class="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight mb-4 animate-slide-up"
+                >
+                    Insights & <span class="gradient-text">Ideas</span>
+                </h1>
+
+                <p
+                    class="text-lg text-slate-500 leading-relaxed animate-slide-up"
+                    style="animation-delay:0.15s; opacity:0;"
+                >
+                    Thoughts on AI-driven experimentation, Bayesian
+                    optimization, and the future of R&D — from the DxTER team
+                    and community.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="pb-24">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            {
+                posts.length === 0 ? (
+                    <div class="text-center py-20">
+                        <p class="text-slate-400 text-lg">
+                            No posts published yet. Check back soon!
+                        </p>
+                    </div>
+                ) : (
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {posts.map((post, index) => (
+                            <a
+                                href={`${import.meta.env.BASE_URL}blog/${post.id}`}
+                                class:list={[
+                                    "group block reveal",
+                                    `reveal-delay-${Math.min(index + 1, 4)}`,
+                                ]}
+                            >
+                                <article class="feature-card h-full flex flex-col !p-0 overflow-hidden">
+                                    {/* Post Image or Gradient Placeholder */}
+                                    <div class="relative h-48 overflow-hidden bg-gradient-to-br from-dxter-600 to-dxter-800">
+                                        <div class="absolute inset-0 flex items-center justify-center opacity-20">
+                                            <svg
+                                                class="w-24 h-24 text-white"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="0.5"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47 2.47a2.25 2.25 0 01-1.59.659H9.06a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V6.75a2.25 2.25 0 00-2.25-2.25h-9.5A2.25 2.25 0 005 6.75v7.75"
+                                                />
+                                            </svg>
+                                        </div>
+                                        {/* Decorative pattern */}
+                                        <div class="absolute inset-0 grid-pattern opacity-30" />
+                                        {/* Hover overlay */}
+                                        <div class="absolute inset-0 bg-dxter-700/0 group-hover:bg-dxter-700/20 transition-colors duration-300" />
+                                    </div>
+
+                                    {/* Content */}
+                                    <div class="flex flex-col flex-1 p-6">
+                                        {/* Tags */}
+                                        {post.data.tags &&
+                                            post.data.tags.length > 0 && (
+                                                <div class="flex flex-wrap gap-2 mb-3">
+                                                    {post.data.tags
+                                                        .slice(0, 2)
+                                                        .map((tag) => (
+                                                            <span class="inline-block text-xs font-medium text-dxter-700 bg-dxter-50 border border-dxter-200/60 rounded-full px-2.5 py-0.5">
+                                                                {tag}
+                                                            </span>
+                                                        ))}
+                                                </div>
+                                            )}
+
+                                        {/* Title */}
+                                        <h2 class="text-lg font-bold text-slate-800 leading-snug mb-2 group-hover:text-dxter-700 transition-colors">
+                                            {post.data.title}
+                                        </h2>
+
+                                        {/* Description */}
+                                        <p class="text-sm text-slate-500 leading-relaxed mb-4 flex-1 line-clamp-3">
+                                            {post.data.description}
+                                        </p>
+
+                                        {/* Meta */}
+                                        <div class="flex items-center justify-between pt-4 border-t border-surface-300 text-xs text-slate-400">
+                                            <span class="font-medium">
+                                                {post.data.author}
+                                            </span>
+                                            <time
+                                                datetime={post.data.date.toISOString()}
+                                            >
+                                                {formatDate(post.data.date)}
+                                            </time>
+                                        </div>
+                                    </div>
+                                </article>
+                            </a>
                         ))}
-                      </div>
-                    )}
-
-                    {/* Title */}
-                    <h2 class="text-lg font-bold text-slate-800 leading-snug mb-2 group-hover:text-dxter-700 transition-colors">
-                      {post.data.title}
-                    </h2>
-
-                    {/* Description */}
-                    <p class="text-sm text-slate-500 leading-relaxed mb-4 flex-1 line-clamp-3">
-                      {post.data.description}
-                    </p>
-
-                    {/* Meta */}
-                    <div class="flex items-center justify-between pt-4 border-t border-surface-300 text-xs text-slate-400">
-                      <span class="font-medium">{post.data.author}</span>
-                      <time datetime={post.data.date.toISOString()}>
-                        {formatDate(post.data.date)}
-                      </time>
                     </div>
-                  </div>
-                </article>
-              </a>
-            ))}
-          </div>
-        )
-      }
-    </div>
-  </section>
+                )
+            }
+        </div>
+    </section>
 </Layout>
 
 <style>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 </style>
 
 <script>
-  // Mobile menu toggle
-  const menuBtn = document.getElementById("mobile-menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.add("hidden");
-      });
-    });
-  }
+    // Mobile menu toggle
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+            });
+        });
+    }
 
-  // Navbar background on scroll
-  const navbar = document.getElementById("navbar");
-  if (navbar) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 20) {
-        navbar.classList.add("shadow-sm");
-      } else {
-        navbar.classList.remove("shadow-sm");
-      }
-    });
-  }
+    // Navbar background on scroll
+    const navbar = document.getElementById("navbar");
+    if (navbar) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add("shadow-sm");
+            } else {
+                navbar.classList.remove("shadow-sm");
+            }
+        });
+    }
 
-  // Reveal on scroll
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
-  );
-  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    // Reveal on scroll
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 </script>

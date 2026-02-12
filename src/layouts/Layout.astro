@@ -1,0 +1,158 @@
+---
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "DxTER – Smarter Experiments. Faster Discoveries.",
+    description = "DxTER is an AI-powered Design of Experiments platform that accelerates product development. Reduce trial-and-error, optimize resources, and discover breakthroughs faster.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta name="generator" content={Astro.generator} />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dxter.ai" />
+
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/png"
+            href="/images/cropped-dxter-favicon-pos.png"
+        />
+
+        <!-- Google Fonts: Rubik, JetBrains Mono -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Rubik:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+
+        <title>{title}</title>
+    </head>
+    <body
+        class="min-h-dvh flex flex-col bg-surface-200 text-slate-800 font-sans antialiased selection:bg-dxter-500/20 selection:text-dxter-900"
+    >
+        <!-- Navigation -->
+        <slot name="nav" />
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <slot />
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full border-t border-surface-300 bg-white">
+            <div class="max-w-7xl mx-auto px-6 sm:px-10 py-10">
+                <div
+                    class="flex flex-col md:flex-row items-center justify-between gap-6"
+                >
+                    <!-- Logo -->
+                    <div class="flex items-center gap-2.5">
+                        <img
+                            src="/images/dxter-logo-noclaim-pos.png"
+                            alt="DxTER"
+                            class="h-9 w-auto"
+                        />
+                    </div>
+
+                    <!-- Links -->
+                    <div class="flex items-center gap-6 text-sm text-slate-500">
+                        <a
+                            href="/#features"
+                            class="hover:text-dxter-700 transition-colors"
+                            >Features</a
+                        >
+                        <a
+                            href="/#use-cases"
+                            class="hover:text-dxter-700 transition-colors"
+                            >Use Cases</a
+                        >
+                        <a
+                            href="/#how-it-works"
+                            class="hover:text-dxter-700 transition-colors"
+                            >How it works</a
+                        >
+                        <a
+                            href="/blog"
+                            class="hover:text-dxter-700 transition-colors"
+                            >Blog</a
+                        >
+                        <a
+                            href="/#faq"
+                            class="hover:text-dxter-700 transition-colors"
+                            >FAQ</a
+                        >
+                    </div>
+
+                    <!-- Legal -->
+                    <div class="flex items-center gap-4 text-xs text-slate-400">
+                        <a
+                            href="#"
+                            class="hover:text-slate-600 transition-colors"
+                            >Legal notice</a
+                        >
+                        <span class="text-slate-300">·</span>
+                        <a
+                            href="#"
+                            class="hover:text-slate-600 transition-colors"
+                            >Privacy policy</a
+                        >
+                        <span class="text-slate-300">·</span>
+                        <a
+                            href="#"
+                            class="hover:text-slate-600 transition-colors"
+                            >Cookies</a
+                        >
+                    </div>
+                </div>
+
+                <div
+                    class="mt-8 pt-6 border-t border-surface-300 text-center text-sm text-slate-400"
+                >
+                    &copy; 2026 &bull;
+                    <a
+                        href="https://dxter.ai"
+                        class="text-dxter-700 hover:text-dxter-800 underline underline-offset-2 transition-colors"
+                        >DxTER</a
+                    >
+                    is a product of TheNextPangea. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+        <!-- Intersection Observer for scroll reveal animations -->
+        <script>
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+            );
+
+            document.querySelectorAll(".reveal").forEach((el) => {
+                observer.observe(el);
+            });
+        </script>
+    </body>
+</html>
+
+<style is:global>
+    @import "../styles/global.css";
+</style>

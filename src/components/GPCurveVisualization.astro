@@ -1,0 +1,666 @@
+---
+/**
+ * GPCurveVisualization.astro
+ * Animated AI predictive model chart showing:
+ * - Uncertainty band (shaded area)
+ * - Predicted mean line
+ * - Observed data points
+ * - Labels explaining each element
+ */
+---
+
+<div class="gp-viz" aria-label="DxTER AI predictive model visualization">
+    <!-- Header -->
+    <div class="gp-header">
+        <div class="gp-header-dot"></div>
+        <span class="gp-header-title">DxTER — AI Prediction Engine</span>
+        <div class="gp-header-status">
+            <span class="gp-status-dot"></span>
+            Live
+        </div>
+    </div>
+
+    <!-- Chart area -->
+    <div class="gp-chart-area">
+        <svg
+            class="gp-svg"
+            viewBox="0 0 520 240"
+            preserveAspectRatio="xMidYMid meet"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <defs>
+                <!-- Uncertainty band gradient -->
+                <linearGradient
+                    id="gp-unc-grad"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                >
+                    <stop offset="0%" stop-color="#177B7D" stop-opacity="0.18"
+                    ></stop>
+                    <stop offset="100%" stop-color="#177B7D" stop-opacity="0.04"
+                    ></stop>
+                </linearGradient>
+
+                <!-- Clip for chart area -->
+                <clipPath id="gp-clip">
+                    <rect x="40" y="15" width="440" height="180"></rect>
+                </clipPath>
+
+                <!-- Glow filter for data points -->
+                <filter
+                    id="gp-glow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                >
+                    <feGaussianBlur
+                        in="SourceGraphic"
+                        stdDeviation="2"
+                        result="blur"></feGaussianBlur>
+                    <feMerge>
+                        <feMergeNode in="blur"></feMergeNode>
+                        <feMergeNode in="SourceGraphic"></feMergeNode>
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- Grid lines -->
+            <g stroke="#E5E7EB" stroke-width="0.5" opacity="0.6">
+                <line x1="40" y1="55" x2="480" y2="55"></line>
+                <line x1="40" y1="95" x2="480" y2="95"></line>
+                <line x1="40" y1="135" x2="480" y2="135"></line>
+                <line x1="40" y1="175" x2="480" y2="175"></line>
+            </g>
+
+            <!-- Y-axis labels -->
+            <g
+                font-family="'Rubik', sans-serif"
+                font-size="11"
+                fill="#9CA3AF"
+                text-anchor="end"
+            >
+                <text x="35" y="58">High</text>
+                <text x="35" y="138">Mid</text>
+                <text x="35" y="178">Low</text>
+            </g>
+
+            <!-- X-axis label -->
+            <text
+                x="260"
+                y="215"
+                font-family="'Rubik', sans-serif"
+                font-size="11"
+                fill="#9CA3AF"
+                text-anchor="middle">Parameter Space</text
+            >
+
+            <!-- Clipped chart content -->
+            <g clip-path="url(#gp-clip)">
+                <!-- Uncertainty band (wide where no data, narrow near data points) -->
+                <path
+                    class="gp-uncertainty"
+                    d="M 40 140
+             C 70 130, 90 100, 130 85
+             C 170 68, 210 50, 260 60
+             C 310 70, 350 55, 390 65
+             C 420 73, 455 80, 480 85
+             L 480 165
+             C 455 155, 420 148, 390 142
+             C 350 134, 310 140, 260 135
+             C 210 130, 170 140, 130 152
+             C 90 162, 70 170, 40 175
+             Z"
+                    fill="url(#gp-unc-grad)"></path>
+
+                <!-- Wide uncertainty zones (where we haven't sampled) -->
+                <path
+                    class="gp-uncertainty-wide"
+                    d="M 40 120
+             C 55 105, 65 90, 80 80
+             L 80 185
+             C 65 180, 55 175, 40 175
+             Z"
+                    fill="#177B7D"
+                    opacity="0.06"></path>
+                <path
+                    class="gp-uncertainty-wide"
+                    d="M 170 55
+             C 190 42, 210 35, 230 38
+             L 230 148
+             C 210 145, 190 140, 170 142
+             Z"
+                    fill="#177B7D"
+                    opacity="0.06"></path>
+                <path
+                    class="gp-uncertainty-wide"
+                    d="M 415 62
+             C 435 55, 455 52, 480 55
+             L 480 160
+             C 455 155, 435 150, 415 148
+             Z"
+                    fill="#177B7D"
+                    opacity="0.06"></path>
+
+                <!-- Predicted mean curve -->
+                <path
+                    class="gp-mean-line"
+                    d="M 40 158
+             C 70 150, 90 130, 130 118
+             C 170 103, 210 88, 260 96
+             C 310 104, 350 92, 390 100
+             C 420 107, 455 112, 480 118"
+                    stroke="#177B7D"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    fill="none"></path>
+
+                <!-- Dashed "true" function hint (barely visible) -->
+                <path
+                    class="gp-true-hint"
+                    d="M 40 155
+             C 70 145, 90 125, 130 115
+             C 170 98, 210 82, 260 90
+             C 310 100, 350 86, 390 95
+             C 420 103, 455 108, 480 115"
+                    stroke="#94A3B8"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-dasharray="4 4"
+                    fill="none"
+                    opacity="0.35"></path>
+            </g>
+
+            <!-- Observed data points -->
+            <g filter="url(#gp-glow)">
+                <circle
+                    class="gp-dot gp-dot-1"
+                    cx="100"
+                    cy="125"
+                    r="0"
+                    fill="#177B7D"
+                    stroke="#FFFFFF"
+                    stroke-width="2.5"></circle>
+                <circle
+                    class="gp-dot gp-dot-2"
+                    cx="175"
+                    cy="105"
+                    r="0"
+                    fill="#177B7D"
+                    stroke="#FFFFFF"
+                    stroke-width="2.5"></circle>
+                <circle
+                    class="gp-dot gp-dot-3"
+                    cx="270"
+                    cy="92"
+                    r="0"
+                    fill="#177B7D"
+                    stroke="#FFFFFF"
+                    stroke-width="2.5"></circle>
+                <circle
+                    class="gp-dot gp-dot-4"
+                    cx="360"
+                    cy="96"
+                    r="0"
+                    fill="#177B7D"
+                    stroke="#FFFFFF"
+                    stroke-width="2.5"></circle>
+                <circle
+                    class="gp-dot gp-dot-5"
+                    cx="440"
+                    cy="110"
+                    r="0"
+                    fill="#177B7D"
+                    stroke="#FFFFFF"
+                    stroke-width="2.5"></circle>
+            </g>
+
+            <!-- Uncertainty annotation arrows -->
+            <g class="gp-annotation gp-annot-uncertainty">
+                <!-- Arrow pointing to wide uncertainty zone -->
+                <line
+                    x1="58"
+                    y1="42"
+                    x2="58"
+                    y2="78"
+                    stroke="#D97706"
+                    stroke-width="1.2"
+                    stroke-dasharray="3 2"></line>
+                <line
+                    x1="58"
+                    y1="175"
+                    x2="58"
+                    y2="140"
+                    stroke="#D97706"
+                    stroke-width="1.2"
+                    stroke-dasharray="3 2"></line>
+                <text
+                    x="58"
+                    y="36"
+                    font-family="'Rubik', sans-serif"
+                    font-size="10"
+                    fill="#D97706"
+                    text-anchor="middle"
+                    font-weight="600">High uncertainty</text
+                >
+
+                <!-- Arrow pointing to narrow zone near data -->
+                <line
+                    x1="270"
+                    y1="68"
+                    x2="270"
+                    y2="82"
+                    stroke="#059669"
+                    stroke-width="1.2"
+                    stroke-dasharray="3 2"></line>
+                <line
+                    x1="270"
+                    y1="136"
+                    x2="270"
+                    y2="120"
+                    stroke="#059669"
+                    stroke-width="1.2"
+                    stroke-dasharray="3 2"></line>
+                <text
+                    x="270"
+                    y="62"
+                    font-family="'Rubik', sans-serif"
+                    font-size="10"
+                    fill="#059669"
+                    text-anchor="middle"
+                    font-weight="600">Low uncertainty</text
+                >
+            </g>
+
+            <!-- "Knowledge gap" highlight -->
+            <g class="gp-annotation gp-annot-gap">
+                <rect
+                    x="190"
+                    y="36"
+                    width="64"
+                    height="18"
+                    rx="5"
+                    fill="#FEF3C7"
+                    stroke="#F59E0B"
+                    stroke-width="0.8"></rect>
+                <text
+                    x="222"
+                    y="49"
+                    font-family="'Rubik', sans-serif"
+                    font-size="10"
+                    fill="#92400E"
+                    text-anchor="middle"
+                    font-weight="600">Gap here!</text
+                >
+                <line
+                    x1="222"
+                    y1="54"
+                    x2="222"
+                    y2="82"
+                    stroke="#F59E0B"
+                    stroke-width="0.8"
+                    stroke-dasharray="2 2"
+                    opacity="0.6"></line>
+            </g>
+        </svg>
+
+        <!-- Inline legend -->
+        <div class="gp-legend">
+            <span class="gp-legend-item">
+                <span class="gp-legend-line gp-legend-mean"></span>
+                Predicted value
+            </span>
+            <span class="gp-legend-item">
+                <span class="gp-legend-swatch gp-legend-band"></span>
+                Uncertainty
+            </span>
+            <span class="gp-legend-item">
+                <span class="gp-legend-dot-icon"></span>
+                Your data
+            </span>
+        </div>
+    </div>
+
+    <!-- Bottom insight -->
+    <div class="gp-insight">
+        <svg class="gp-insight-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
+                clip-rule="evenodd"></path>
+        </svg>
+        <span>More experiments → less uncertainty → better predictions</span>
+    </div>
+</div>
+
+<style>
+    /* ─── Container ─── */
+    .gp-viz {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        font-family: var(--font-sans, "Rubik", system-ui, sans-serif);
+    }
+
+    /* ─── Header bar ─── */
+    .gp-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 20px;
+        border-bottom: 1px solid #f1f5f9;
+        background: #fafbfc;
+    }
+
+    .gp-header-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #177b7d;
+        flex-shrink: 0;
+    }
+
+    .gp-header-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #475569;
+        flex: 1;
+    }
+
+    .gp-header-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #059669;
+    }
+
+    .gp-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #059669;
+        animation: gp-status-blink 2s ease-in-out infinite;
+    }
+
+    /* ─── Chart ─── */
+    .gp-chart-area {
+        padding: 20px 20px 8px;
+    }
+
+    .gp-svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* ─── Uncertainty band animation ─── */
+    .gp-uncertainty {
+        opacity: 0;
+        transform-origin: center 140px;
+        animation: gp-band-reveal 1.4s ease-out 0.4s forwards;
+    }
+
+    .gp-uncertainty-wide {
+        opacity: 0;
+        animation: gp-wide-reveal 0.8s ease-out 1.2s forwards;
+    }
+
+    /* ─── Mean line animation ─── */
+    .gp-mean-line {
+        stroke-dasharray: 900;
+        stroke-dashoffset: 900;
+        animation: gp-draw-line 1.8s ease-out 0.3s forwards;
+    }
+
+    /* ─── True function hint ─── */
+    .gp-true-hint {
+        stroke-dasharray: 4 4;
+        opacity: 0;
+        animation: gp-fade-in 0.6s ease-out 2s forwards;
+    }
+
+    /* ─── Data points ─── */
+    .gp-dot {
+        animation: gp-dot-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .gp-dot-1 {
+        animation-delay: 0.8s;
+    }
+    .gp-dot-2 {
+        animation-delay: 1s;
+    }
+    .gp-dot-3 {
+        animation-delay: 1.2s;
+    }
+    .gp-dot-4 {
+        animation-delay: 1.4s;
+    }
+    .gp-dot-5 {
+        animation-delay: 1.6s;
+    }
+
+    /* ─── Annotations ─── */
+    .gp-annotation {
+        opacity: 0;
+    }
+
+    .gp-annot-uncertainty {
+        animation: gp-fade-in 0.5s ease-out 2.2s forwards;
+    }
+
+    .gp-annot-gap {
+        animation: gp-fade-in 0.5s ease-out 2.6s forwards;
+    }
+
+    /* ─── Legend ─── */
+    .gp-legend {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 12px 0 8px;
+        opacity: 0;
+        animation: gp-fade-in 0.4s ease-out 2.8s forwards;
+    }
+
+    .gp-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.82rem;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    .gp-legend-line {
+        width: 20px;
+        height: 3px;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    .gp-legend-mean {
+        background: #177b7d;
+    }
+
+    .gp-legend-swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        flex-shrink: 0;
+    }
+
+    .gp-legend-band {
+        background: rgba(23, 123, 125, 0.15);
+        border: 1px solid rgba(23, 123, 125, 0.25);
+    }
+
+    .gp-legend-dot-icon {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #177b7d;
+        border: 1.5px solid white;
+        box-shadow: 0 0 0 1px #177b7d;
+        flex-shrink: 0;
+    }
+
+    /* ─── Bottom insight ─── */
+    .gp-insight {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px 14px;
+        font-size: 0.85rem;
+        color: #64748b;
+        border-top: 1px solid #f1f5f9;
+        background: #fafbfc;
+    }
+
+    .gp-insight-icon {
+        width: 16px;
+        height: 16px;
+        color: #177b7d;
+        flex-shrink: 0;
+    }
+
+    /* ═══ Keyframes ═══ */
+
+    @keyframes gp-band-reveal {
+        from {
+            opacity: 0;
+            transform: scaleY(0);
+        }
+        to {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+    }
+
+    @keyframes gp-wide-reveal {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 0.06;
+        }
+    }
+
+    @keyframes gp-draw-line {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes gp-dot-pop {
+        0% {
+            r: 0;
+            opacity: 0;
+        }
+        60% {
+            r: 6.5;
+            opacity: 1;
+        }
+        100% {
+            r: 5.5;
+            opacity: 1;
+        }
+    }
+
+    @keyframes gp-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes gp-status-blink {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.3;
+        }
+    }
+
+    /* ═══ Responsive ═══ */
+
+    @media (max-width: 1024px) {
+        .gp-header-title {
+            font-size: 0.8rem;
+        }
+
+        .gp-legend {
+            gap: 16px;
+        }
+
+        .gp-legend-item {
+            font-size: 0.72rem;
+        }
+
+        .gp-insight {
+            font-size: 0.75rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .gp-header {
+            padding: 10px 14px;
+        }
+
+        .gp-header-title {
+            font-size: 0.72rem;
+        }
+
+        .gp-chart-area {
+            padding: 12px 10px 4px;
+        }
+
+        .gp-legend {
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .gp-legend-item {
+            font-size: 0.65rem;
+        }
+
+        .gp-insight {
+            font-size: 0.68rem;
+            padding: 8px 14px 10px;
+        }
+    }
+
+    /* ═══ Reduced motion ═══ */
+
+    @media (prefers-reduced-motion: reduce) {
+        .gp-uncertainty,
+        .gp-uncertainty-wide,
+        .gp-mean-line,
+        .gp-true-hint,
+        .gp-dot,
+        .gp-annotation,
+        .gp-annot-uncertainty,
+        .gp-annot-gap,
+        .gp-legend {
+            animation-duration: 0.01s !important;
+            animation-delay: 0s !important;
+        }
+
+        .gp-status-dot {
+            animation: none !important;
+        }
+    }
+</style>

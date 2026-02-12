@@ -1,0 +1,54 @@
+---
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "DxTER: The Optimization Game",
+    description = "Can you find the global maximum with limited resources? Learn how smarter experimentation outperforms brute force.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta name="generator" content={Astro.generator} />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+        <!-- Google Fonts: Rubik, JetBrains Mono -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Rubik:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+
+        <title>{title}</title>
+    </head>
+    <body
+        class="h-dvh flex flex-col bg-[#f5f7fa] text-slate-800 font-sans antialiased selection:bg-dxter-500/20 selection:text-dxter-900"
+    >
+        <main class="relative flex-1 min-h-0">
+            <slot />
+        </main>
+        <footer class="w-full py-2 text-center text-sm text-slate-400 shrink-0">
+            © 2026 • <a
+                href="https://dxter.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#177B7D] hover:text-[#125d5f] underline underline-offset-2 transition-colors"
+                >DxTER</a
+            > is a product of The Next Pangea. All rights reserved.
+        </footer>
+    </body>
+</html>
+
+<style is:global>
+    @import "../styles/global.css";
+</style>

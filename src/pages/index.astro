@@ -1,0 +1,1576 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Faq from "@/components/Faq";
+import WorkflowInfographic from "@/components/WorkflowInfographic.astro";
+import GPCurveVisualization from "@/components/GPCurveVisualization.astro";
+---
+
+<Layout>
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- NAVBAR                                                            -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <nav
+        slot="nav"
+        class="fixed top-0 inset-x-0 z-50 nav-blur border-b border-surface-300/60"
+        id="navbar"
+    >
+        <div
+            class="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-3.5"
+        >
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <img
+                    src="/images/dxter-logo-noclaim-pos.png"
+                    alt="DxTER"
+                    class="h-9 w-auto"
+                />
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <div
+                class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500"
+            >
+                <a
+                    href="#features"
+                    class="hover:text-dxter-700 transition-colors">Features</a
+                >
+                <a
+                    href="#use-cases"
+                    class="hover:text-dxter-700 transition-colors">Use Cases</a
+                >
+                <a
+                    href="#how-it-works"
+                    class="hover:text-dxter-700 transition-colors"
+                    >How it works</a
+                >
+                <a href="/blog" class="hover:text-dxter-700 transition-colors"
+                    >Blog</a
+                >
+                <a href="#faq" class="hover:text-dxter-700 transition-colors"
+                    >FAQ</a
+                >
+                <a
+                    href="#contact"
+                    class="btn-dxter !py-2.5 !px-5 !text-sm !rounded-lg"
+                    >Contact Us</a
+                >
+                <a
+                    href="https://app.dxter.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-dxter-outline !py-2.5 !px-5 !text-sm !rounded-lg"
+                >
+                    Sign in
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        ><path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"
+                        ></path></svg
+                    >
+                </a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button
+                id="mobile-menu-btn"
+                class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-100 transition-colors"
+                aria-label="Toggle menu"
+            >
+                <svg
+                    class="w-5 h-5 text-slate-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div
+            id="mobile-menu"
+            class="hidden md:hidden border-t border-surface-300/60 bg-white px-6 py-4"
+        >
+            <div class="flex flex-col gap-3 text-sm font-medium text-slate-600">
+                <a
+                    href="#features"
+                    class="py-2 hover:text-dxter-700 transition-colors"
+                    >Features</a
+                >
+                <a
+                    href="#use-cases"
+                    class="py-2 hover:text-dxter-700 transition-colors"
+                    >Use Cases</a
+                >
+                <a
+                    href="#how-it-works"
+                    class="py-2 hover:text-dxter-700 transition-colors"
+                    >How it works</a
+                >
+                <a
+                    href="/blog"
+                    class="py-2 hover:text-dxter-700 transition-colors">Blog</a
+                >
+                <a
+                    href="#faq"
+                    class="py-2 hover:text-dxter-700 transition-colors">FAQ</a
+                >
+                <a href="#contact" class="btn-dxter !text-sm mt-2">Contact Us</a
+                >
+                <a
+                    href="https://app.dxter.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-dxter-outline !text-sm mt-1"
+                >
+                    Sign in
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        ><path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"
+                        ></path></svg
+                    >
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- HERO SECTION                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section
+        class="relative min-h-[92vh] flex items-center pt-20 pb-16 overflow-hidden grid-pattern"
+    >
+        <!-- Decorative glows -->
+        <div
+            class="hero-glow w-[500px] h-[500px] bg-dxter-300 top-[-10%] right-[-5%]"
+        >
+        </div>
+        <div
+            class="hero-glow w-[400px] h-[400px] bg-dxter-400 bottom-[-10%] left-[-8%]"
+        >
+        </div>
+        <div
+            class="hero-glow w-[250px] h-[250px] bg-dxter-200 top-[30%] left-[20%]"
+        >
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <!-- Left: Text -->
+                <div class="max-w-xl">
+                    <div class="section-label mb-6 animate-fade-in">
+                        <svg
+                            class="w-3.5 h-3.5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            ><path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                            ></path></svg
+                        >
+                        Product Development Acceleration
+                    </div>
+
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.1] tracking-tight mb-6 animate-slide-up"
+                    >
+                        Smarter Experiments.<br />
+                        <span class="gradient-text">Faster Discoveries.</span>
+                    </h1>
+
+                    <p
+                        class="text-lg text-slate-500 leading-relaxed mb-10 animate-slide-up"
+                        style="animation-delay:0.15s; opacity:0;"
+                    >
+                        DxTER is an AI-powered Design of Experiments platform
+                        that reduces trial-and-error, optimizes resources, and
+                        helps you reach breakthroughs with fewer experiments.
+                    </p>
+
+                    <div
+                        class="flex flex-wrap gap-4 animate-slide-up"
+                        style="animation-delay:0.3s; opacity:0;"
+                    >
+                        <a
+                            href="https://app.dxter.ai"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn-dxter"
+                        >
+                            Go to App
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                                ></path></svg
+                            >
+                        </a>
+                        <a href="#how-it-works" class="btn-dxter-outline">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Animated Workflow Infographic -->
+                <div
+                    class="hidden lg:flex items-center justify-center relative animate-fade-in"
+                    style="animation-delay:0.2s; opacity:0;"
+                >
+                    <WorkflowInfographic />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- TRUST INDICATORS / QUICK STATS                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section class="py-12 bg-white border-y border-surface-300/60">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="reveal">
+                    <div class="stat-number">-60%</div>
+                    <div class="text-sm text-slate-500 mt-1">
+                        Fewer experiments needed
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-1">
+                    <div class="stat-number">3&times;</div>
+                    <div class="text-sm text-slate-500 mt-1">
+                        Faster time to discovery
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-2">
+                    <div class="stat-number">100%</div>
+                    <div class="text-sm text-slate-500 mt-1">
+                        GDPR compliant
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-3">
+                    <div class="stat-number">EU</div>
+                    <div class="text-sm text-slate-500 mt-1">
+                        European data centers
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- FEATURES (4 CARDS)                                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section id="features" class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <div class="section-label mx-auto mb-5 reveal">
+                    <svg
+                        class="w-3.5 h-3.5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        ><path
+                            fill-rule="evenodd"
+                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                            clip-rule="evenodd"></path></svg
+                    >
+                    Key Features
+                </div>
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 reveal"
+                >
+                    Boost your experiments with <span class="gradient-text"
+                        >DxTER</span
+                    >
+                </h2>
+                <p class="text-slate-500 text-lg reveal">
+                    Revolutionize your research with AI-powered experimentation.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="feature-card reveal">
+                    <div class="icon-box icon-box-light mb-5">
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
+                            ></path></svg
+                        >
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        Efficient Innovation
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Reduce trial-and-error and optimize resources with
+                        intelligent experiment design.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="icon-box icon-box-light mb-5">
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"
+                            ></path></svg
+                        >
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        AI-Driven DOE
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Automatically identify the best experiment settings
+                        using advanced AI algorithms.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="icon-box icon-box-light mb-5">
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
+                            ></path></svg
+                        >
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        Powerful Insights
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Gain in-depth knowledge of your data with intuitive
+                        visualizations and analytics.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="icon-box icon-box-light mb-5">
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                            ></path></svg
+                        >
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        Fast Breakthroughs
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Fewer experiments to discover the future. Accelerate
+                        your path to innovation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- DETAILED FEATURES (3 BLOCKS)                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section class="py-24 sm:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center mb-20 max-w-2xl mx-auto">
+                <div class="section-label mx-auto mb-5 reveal">
+                    Smart Design of eXperiments
+                </div>
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 reveal"
+                >
+                    Revolutionize your research <span class="gradient-text"
+                        >with AI</span
+                    >
+                </h2>
+            </div>
+
+            <!-- Feature block 1 -->
+            <div class="mb-24 reveal">
+                <!-- Header: centered text -->
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <div class="icon-box icon-box-teal">
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
+                                ></path></svg
+                            >
+                        </div>
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-dxter-700"
+                            >Opportunities</span
+                        >
+                    </div>
+                    <h3
+                        class="text-2xl sm:text-3xl font-bold tracking-tight mb-4"
+                    >
+                        Identify knowledge gaps
+                    </h3>
+                    <p class="text-slate-500 leading-relaxed text-lg">
+                        DxTER builds an intelligent predictive model from your
+                        existing data. It learns what every untested combination
+                        might yield — and how confident it is about each
+                        prediction. Where confidence is low, there's
+                        opportunity.
+                    </p>
+                </div>
+
+                <!-- Chart: full width -->
+                <div class="relative max-w-4xl mx-auto mb-10">
+                    <GPCurveVisualization />
+                    <div
+                        class="absolute -inset-3 bg-gradient-to-br from-dxter-100 to-dxter-50 rounded-3xl -z-10 opacity-60"
+                    >
+                    </div>
+                </div>
+
+                <!-- Bullets: 3-column row -->
+                <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="flex items-start gap-3">
+                        <svg
+                            class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path></svg
+                        >
+                        <span class="text-sm text-slate-600"
+                            >Spot unexplored regions where breakthroughs may
+                            hide</span
+                        >
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <svg
+                            class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path></svg
+                        >
+                        <span class="text-sm text-slate-600"
+                            >Quantify uncertainty — know exactly where you need
+                            more data</span
+                        >
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <svg
+                            class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path></svg
+                        >
+                        <span class="text-sm text-slate-600"
+                            >Each experiment sharpens the model — fewer runs,
+                            better answers</span
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature block 2 -->
+            <div
+                class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24 reveal"
+            >
+                <div class="order-2 lg:order-1 relative">
+                    <div class="glass rounded-2xl p-8 relative z-10">
+                        <div class="space-y-4">
+                            <div
+                                class="flex items-center gap-3 p-3 bg-surface-100 rounded-xl border border-surface-300"
+                            >
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-dxter-700 flex items-center justify-center flex-shrink-0"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-white"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        ><path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+                                        ></path></svg
+                                    >
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div
+                                        class="text-sm font-bold text-slate-800 truncate"
+                                    >
+                                        Polymer Optimization Q4
+                                    </div>
+                                    <div class="text-xs text-slate-400">
+                                        12 experiments &middot; Updated 2h ago
+                                    </div>
+                                </div>
+                                <div
+                                    class="text-xs font-mono font-semibold text-dxter-700 bg-dxter-50 px-2 py-0.5 rounded-md"
+                                >
+                                    Active
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 p-3 bg-surface-100 rounded-xl border border-surface-300"
+                            >
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-slate-200 flex items-center justify-center flex-shrink-0"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-slate-500"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        ><path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+                                        ></path></svg
+                                    >
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div
+                                        class="text-sm font-bold text-slate-800 truncate"
+                                    >
+                                        Adhesive Formulation Study
+                                    </div>
+                                    <div class="text-xs text-slate-400">
+                                        8 experiments &middot; Updated 1d ago
+                                    </div>
+                                </div>
+                                <div
+                                    class="text-xs font-mono text-slate-400 bg-surface-200 px-2 py-0.5 rounded-md"
+                                >
+                                    Completed
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 p-3 bg-surface-100 rounded-xl border border-surface-300"
+                            >
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-slate-200 flex items-center justify-center flex-shrink-0"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-slate-500"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        ><path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+                                        ></path></svg
+                                    >
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div
+                                        class="text-sm font-bold text-slate-800 truncate"
+                                    >
+                                        Coating Thickness Analysis
+                                    </div>
+                                    <div class="text-xs text-slate-400">
+                                        21 experiments &middot; Updated 3d ago
+                                    </div>
+                                </div>
+                                <div
+                                    class="text-xs font-mono text-slate-400 bg-surface-200 px-2 py-0.5 rounded-md"
+                                >
+                                    Completed
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute -inset-3 bg-gradient-to-br from-dxter-50 to-surface-100 rounded-3xl -z-10 opacity-60"
+                    >
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="icon-box icon-box-teal">
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                ></path></svg
+                            >
+                        </div>
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-dxter-700"
+                            >Organization</span
+                        >
+                    </div>
+                    <h3
+                        class="text-2xl sm:text-3xl font-bold tracking-tight mb-4"
+                    >
+                        Store and organize your experiments
+                    </h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">
+                        Keep all your experiment data, protocols, and results
+                        organized and easily accessible in a secure, cloud-based
+                        platform, facilitating collaboration and
+                        reproducibility.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <svg
+                                class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"></path></svg
+                            >
+                            <span class="text-sm text-slate-600"
+                                >Secure cloud-based storage with full encryption</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg
+                                class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"></path></svg
+                            >
+                            <span class="text-sm text-slate-600"
+                                >Team collaboration with role-based access</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg
+                                class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"></path></svg
+                            >
+                            <span class="text-sm text-slate-600"
+                                >Full experiment history and reproducibility</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature block 3 -->
+            <div
+                class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center reveal"
+            >
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="icon-box icon-box-teal">
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                ></path></svg
+                            >
+                        </div>
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-dxter-700"
+                            >Time & Cost</span
+                        >
+                    </div>
+                    <h3
+                        class="text-2xl sm:text-3xl font-bold tracking-tight mb-4"
+                    >
+                        Reduce time and cost of experimentation
+                    </h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">
+                        Our AI-powered platform optimizes experiment design,
+                        reducing the number of runs needed and minimizing
+                        resource consumption, saving you valuable time and
+                        budget.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <svg
+                                class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"></path></svg
+                            >
+                            <span class="text-sm text-slate-600"
+                                >Up to 60% fewer experiments needed</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg
+                                class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"></path></svg
+                            >
+                            <span class="text-sm text-slate-600"
+                                >Minimize raw material waste and lab hours</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg
+                                class="w-5 h-5 text-dxter-700 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"></path></svg
+                            >
+                            <span class="text-sm text-slate-600"
+                                >Faster go-to-market for new products</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                    <div class="glass rounded-2xl p-8 relative z-10">
+                        <!-- Before / After comparison -->
+                        <div class="mb-6">
+                            <div
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4"
+                            >
+                                Traditional vs DxTER approach
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <div
+                                        class="flex justify-between text-sm mb-2"
+                                    >
+                                        <span class="text-slate-600 font-medium"
+                                            >Traditional DOE</span
+                                        >
+                                        <span
+                                            class="font-mono font-bold text-slate-400"
+                                            >~150 experiments</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="w-full h-4 bg-surface-200 rounded-full overflow-hidden"
+                                    >
+                                        <div
+                                            class="h-full bg-slate-300 rounded-full"
+                                            style="width:100%"
+                                        >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        class="flex justify-between text-sm mb-2"
+                                    >
+                                        <span class="text-slate-600 font-medium"
+                                            >With DxTER</span
+                                        >
+                                        <span
+                                            class="font-mono font-bold text-dxter-700"
+                                            >~40 experiments</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="w-full h-4 bg-surface-200 rounded-full overflow-hidden"
+                                    >
+                                        <div
+                                            class="h-full bg-gradient-to-r from-dxter-600 to-dxter-400 rounded-full"
+                                            style="width:27%"
+                                        >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl p-4"
+                        >
+                            <svg
+                                class="w-5 h-5 text-green-600 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                ></path></svg
+                            >
+                            <span class="text-sm text-green-800 font-medium"
+                                >Save up to 73% in experimentation costs</span
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="absolute -inset-3 bg-gradient-to-br from-dxter-100 to-dxter-50 rounded-3xl -z-10 opacity-60"
+                    >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- USE CASES                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section id="use-cases" class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <div class="section-label mx-auto mb-5 reveal">
+                    <svg
+                        class="w-3.5 h-3.5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        ><path
+                            fill-rule="evenodd"
+                            d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm-2 5a1 1 0 100 2h8a1 1 0 100-2H6z"
+                            clip-rule="evenodd"></path></svg
+                    >
+                    Applications
+                </div>
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 reveal"
+                >
+                    Use Cases
+                </h2>
+                <p class="text-slate-500 text-lg reveal">
+                    DxTER empowers innovation across various industrial and R&D
+                    applications.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Materials Sciences -->
+                <div class="usecase-card reveal overflow-hidden !p-0">
+                    <div class="h-48 overflow-hidden">
+                        <img
+                            src="/images/science-laboratory-test-tubes-laboratory-equipment-600x400.jpg"
+                            alt="Materials Sciences - Laboratory test tubes and equipment"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                    </div>
+                    <div class="p-7">
+                        <div class="icon-box icon-box-teal mb-5">
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"
+                                ></path></svg
+                            >
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3">
+                            Materials Sciences
+                        </h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                            Optimize formulations and discover new materials
+                            faster.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Chemicals</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Plastics</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Composites</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Metals & Alloys</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Life Sciences -->
+                <div
+                    class="usecase-card reveal reveal-delay-1 overflow-hidden !p-0"
+                >
+                    <div class="h-48 overflow-hidden">
+                        <img
+                            src="/images/two-people-are-looking-computer-screen-with-lab-coat-it.jpg"
+                            alt="Life Sciences - Researchers in lab coats analyzing data"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                    </div>
+                    <div class="p-7">
+                        <div class="icon-box icon-box-teal mb-5">
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47 4.235a2.25 2.25 0 01-1.944 1.128H9.414a2.25 2.25 0 01-1.944-1.128L5 14.5m14 0H5"
+                                ></path></svg
+                            >
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3">
+                            Life Sciences
+                        </h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                            Accelerate drug discovery, biotech research, and
+                            formulation development.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Pharmaceuticals</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Cosmetics</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Biotechnology</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Manufacturing -->
+                <div
+                    class="usecase-card reveal reveal-delay-2 overflow-hidden !p-0"
+                >
+                    <div class="h-48 overflow-hidden">
+                        <img
+                            src="/images/impresion3d.jpg"
+                            alt="Advanced Manufacturing - 3D printing technology"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                    </div>
+                    <div class="p-7">
+                        <div class="icon-box icon-box-teal mb-5">
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M11.42 15.17l-5.58 3.07 1.06-6.21L2.35 7.6l6.24-.91L11.42 1l2.83 5.69 6.24.91-4.55 4.43 1.06 6.21z"
+                                ></path></svg
+                            >
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3">
+                            Advanced Manufacturing
+                        </h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                            Optimize complex manufacturing processes and push
+                            engineering boundaries.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Additive Mfg.</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Aerospace</span
+                            >
+                            <span
+                                class="text-xs bg-dxter-50 text-dxter-700 px-2.5 py-1 rounded-md font-medium"
+                                >Energy Storage</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- HOW IT WORKS / DOE EXPLANATION                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section id="how-it-works" class="py-24 sm:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <div class="section-label mx-auto mb-5 reveal">
+                    Easy Design of Experiments
+                </div>
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 reveal"
+                >
+                    Optimizing experimental processes with <span
+                        class="gradient-text">DxTER</span
+                    >
+                </h2>
+                <p class="text-slate-500 text-lg reveal">
+                    Experimental processes are at the heart of scientific
+                    discovery and innovation. These processes are inherently
+                    iterative, involving a vast number of possible ingredient
+                    combinations and complex synthesis rules.
+                </p>
+            </div>
+
+            <!-- Steps -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center reveal">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-dxter-700 text-white flex items-center justify-center mx-auto mb-5 text-2xl font-extrabold shadow-lg shadow-dxter-700/20"
+                    >
+                        1
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        Define your problem
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Specify your factors, responses, and constraints. DxTER
+                        understands your experimental domain from the very
+                        start.
+                    </p>
+                </div>
+                <div class="text-center reveal reveal-delay-1">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-dxter-700 text-white flex items-center justify-center mx-auto mb-5 text-2xl font-extrabold shadow-lg shadow-dxter-700/20"
+                    >
+                        2
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        AI suggests experiments
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        DxTER's algorithms recommend the most informative
+                        experiments, balancing exploration of unknowns with
+                        exploitation of promising areas.
+                    </p>
+                </div>
+                <div class="text-center reveal reveal-delay-2">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-dxter-700 text-white flex items-center justify-center mx-auto mb-5 text-2xl font-extrabold shadow-lg shadow-dxter-700/20"
+                    >
+                        3
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">
+                        Discover the optimum
+                    </h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        With each iteration, DxTER learns and refines. You
+                        converge on the best solution with significantly fewer
+                        experiments than traditional approaches.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Extended explanation -->
+            <div class="glass rounded-2xl p-8 sm:p-12 max-w-4xl mx-auto reveal">
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="icon-box icon-box-teal flex-shrink-0">
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
+                            ></path></svg
+                        >
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 mb-2">
+                            What is Design of Experiments (DOE)?
+                        </h4>
+                        <p class="text-slate-500 leading-relaxed">
+                            Testing different combinations of ingredients and
+                            parameters requires extensive experimentation time.
+                            DxTER helps reduce the number of steps needed to
+                            achieve the desired result &mdash; crucial for the
+                            economic viability of the process &mdash; by
+                            optimizing your Design of Experiments (DOE). Instead
+                            of testing every possible combination, DxTER
+                            intelligently selects the most valuable experiments
+                            to run next.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- AI-DRIVEN EXPERIMENTATION                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section class="relative py-24 sm:py-32 overflow-hidden">
+        <!-- Hexagonal background image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src="/images/glowing-hexagonal-grid-neon-background-3d-rendering-digital-drawing.jpg"
+                alt=""
+                class="w-full h-full object-cover"
+                aria-hidden="true"
+            />
+            <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm">
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="reveal">
+                    <div
+                        class="section-label mb-5 !bg-white/10 !border-white/20 !text-dxter-200"
+                    >
+                        Advanced DOE for Faster Innovation
+                    </div>
+                    <h2
+                        class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6 text-white"
+                    >
+                        Smarter <span class="gradient-text">AI-Driven</span> experimentation
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed mb-8">
+                        DxTER leverages advanced AI-powered optimization
+                        techniques to recommend experiments with unmatched
+                        precision and efficiency.
+                    </p>
+
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-dxter-300"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"
+                                    ></path></svg
+                                >
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1">
+                                    Exploration & Exploitation Balance
+                                </h4>
+                                <p
+                                    class="text-sm text-slate-300 leading-relaxed"
+                                >
+                                    Discovering untested areas while refining
+                                    the most promising identified regions within
+                                    your problem space.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-dxter-300"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5"
+                                    ></path></svg
+                                >
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1">
+                                    Multi-Response Optimization
+                                </h4>
+                                <p
+                                    class="text-sm text-slate-300 leading-relaxed"
+                                >
+                                    Optimize multiple responses simultaneously.
+                                    Efficiently handling complex experimental
+                                    setups.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-dxter-300"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
+                                    ></path></svg
+                                >
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1">
+                                    Nonlinear Relationship Modeling
+                                </h4>
+                                <p
+                                    class="text-sm text-slate-300 leading-relaxed"
+                                >
+                                    DxTER models intricate interactions between
+                                    factors and responses, solving complex,
+                                    nonlinear relationships.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-dxter-300"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                                    ></path></svg
+                                >
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1">
+                                    Uncertainty Management
+                                </h4>
+                                <p
+                                    class="text-sm text-slate-300 leading-relaxed"
+                                >
+                                    Making informed decisions even with noisy or
+                                    uncertain experimental data, quantifying
+                                    confidence at every step.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Visual -->
+                <div class="reveal relative">
+                    <div
+                        class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 relative z-10"
+                    >
+                        <!-- AI prediction surface visualization mockup -->
+                        <div
+                            class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4"
+                        >
+                            AI Prediction Model
+                        </div>
+                        <div class="relative mb-6">
+                            <!-- Simplified heat map / contour plot -->
+                            <div class="grid grid-cols-8 gap-1">
+                                {
+                                    [
+                                        15, 20, 25, 30, 28, 22, 18, 12, 22, 35,
+                                        45, 55, 52, 40, 30, 20, 30, 48, 65, 78,
+                                        75, 58, 42, 28, 35, 55, 75, 92, 88, 68,
+                                        50, 32, 32, 50, 70, 85, 95, 72, 55, 35,
+                                        25, 42, 58, 70, 68, 55, 40, 25, 18, 30,
+                                        42, 52, 50, 40, 30, 18, 12, 20, 28, 35,
+                                        32, 25, 20, 12,
+                                    ].map((v, i) => (
+                                        <div
+                                            class="aspect-square rounded-sm transition-all duration-300"
+                                            style={`background: rgba(23,123,125,${v / 100}); ${v === 95 ? "box-shadow: 0 0 8px rgba(174,234,231,0.8); border: 1.5px solid #aeeae7;" : ""}`}
+                                        >
+                                            {v === 95 && (
+                                                <div class="w-full h-full flex items-center justify-center">
+                                                    <div class="w-2 h-2 bg-white rounded-full animate-pulse-soft" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="flex items-center gap-2 text-xs text-slate-300"
+                            >
+                                <div
+                                    class="w-16 h-2 rounded-full bg-gradient-to-r from-dxter-100 to-dxter-700"
+                                >
+                                </div>
+                                <span>Predicted value</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div
+                                    class="w-2.5 h-2.5 rounded-full bg-white border-2 border-dxter-300 animate-pulse-soft"
+                                >
+                                </div>
+                                <span
+                                    class="text-xs text-dxter-200 font-semibold"
+                                    >Optimum</span
+                                >
+                            </div>
+                        </div>
+
+                        <div
+                            class="mt-6 p-4 bg-dxter-900/40 border border-dxter-400/30 rounded-xl"
+                        >
+                            <div class="flex items-center gap-2 mb-1">
+                                <svg
+                                    class="w-4 h-4 text-dxter-300"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
+                                    ></path></svg
+                                >
+                                <span class="text-xs font-bold text-dxter-200"
+                                    >Model Confidence: 94.7%</span
+                                >
+                            </div>
+                            <p class="text-xs text-dxter-300">
+                                Based on 12 observations, the model has
+                                identified a clear global optimum with high
+                                confidence.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- FAQ                                                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section id="faq" class="py-24 sm:py-32 bg-white">
+        <div class="max-w-3xl mx-auto px-6 sm:px-10">
+            <div class="text-center mb-14">
+                <div class="section-label mx-auto mb-5 reveal">
+                    DxTER behind curtains
+                </div>
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 reveal"
+                >
+                    Frequently Asked Questions
+                </h2>
+            </div>
+
+            <Faq client:load />
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- CTA                                                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <section id="contact" class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div
+                class="cta-gradient rounded-3xl px-8 sm:px-16 py-16 sm:py-20 text-center relative z-10 reveal"
+            >
+                <h2
+                    class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4"
+                >
+                    Ready to accelerate your discoveries?
+                </h2>
+                <p
+                    class="text-dxter-200 text-lg max-w-xl mx-auto mb-10 leading-relaxed"
+                >
+                    Contact us to try DxTER and experience smarter
+                    experimentation. We'll arrange a personalized demo tailored
+                    to your organization's needs.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a
+                        href="https://app.dxter.ai"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-8 py-4 bg-white text-dxter-800 rounded-xl font-bold text-base hover:bg-dxter-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    >
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                            ></path></svg
+                        >
+                        Go to App
+                    </a>
+                    <a
+                        href="mailto:info@thenextpangea.com"
+                        class="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-white border-2 border-white/30 rounded-xl font-bold text-base hover:bg-white/10 transition-all hover:-translate-y-0.5"
+                    >
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                            ></path></svg
+                        >
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+        // Close menu when clicking a link
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+            });
+        });
+    }
+
+    // Navbar background on scroll
+    const navbar = document.getElementById("navbar");
+    if (navbar) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add("shadow-sm");
+            } else {
+                navbar.classList.remove("shadow-sm");
+            }
+        });
+    }
+</script>

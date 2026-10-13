@@ -1,0 +1,125 @@
+---
+import Icon from "./Icon.astro";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["cases"];
+}
+
+const { t } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const caseImgs = [
+    { img: "materials", w: 560, h: 559 },
+    { img: "biotec", w: 560, h: 609 },
+    { img: "manufacturing", w: 560, h: 599 },
+];
+const simImgs = [
+    { img: "sim-01", w: 360, h: 270 },
+    { img: "sim-02", w: 360, h: 360 },
+    { img: "sim-03", w: 360, h: 360 },
+];
+---
+
+<section id="casos" class="relative bg-white">
+    <div class="mx-auto max-w-[1240px] px-5 sm:px-8">
+        <div data-slide class="slide">
+        <div class="grid gap-6 lg:grid-cols-2 lg:items-end">
+            <div>
+                <span class="eyebrow reveal">{t.eyebrow}</span>
+                <h2 class="h-display reveal mt-5 text-[clamp(2.2rem,4.6vw,3.6rem)] text-ink">
+                    {t.title} <span class="text-gradient">{t.titleAccent}</span>
+                </h2>
+            </div>
+            <p class="reveal text-lg leading-relaxed text-muted lg:pb-2">
+                {t.lead}
+            </p>
+        </div>
+
+        <div class="mt-14 grid gap-5 md:grid-cols-3">
+            {
+                t.items.map((c, i) => (
+                    <article class="card card-hover reveal group flex flex-col overflow-hidden">
+                        <div class="relative h-64 overflow-hidden bg-gradient-to-br from-mint via-white to-soft">
+                            <div class="absolute bottom-0 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-cyan/20 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+                            <img
+                                src={`${base}img/${caseImgs[i].img}.webp`}
+                                alt=""
+                                width={caseImgs[i].w}
+                                height={caseImgs[i].h}
+                                loading="lazy"
+                                class="absolute inset-x-0 bottom-0 mx-auto h-[92%] w-auto object-contain transition-transform duration-700 group-hover:-translate-y-1 group-hover:scale-[1.04]"
+                            />
+                        </div>
+                        <div class="flex flex-1 flex-col p-7">
+                            <h3 class="font-display text-xl font-semibold tracking-tight text-ink">{c.title}</h3>
+                            <p class="mt-2 text-[15px] leading-relaxed text-muted">{c.text}</p>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+
+        </div>
+
+        <!-- Simulator integration -->
+        <div data-slide class="slide">
+        <div class="on-dark reveal relative overflow-hidden rounded-[32px] bg-navy-900 text-white">
+            <img
+                src={`${base}img/dxter-bg-04.webp`}
+                alt=""
+                width="1672"
+                height="941"
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover opacity-50"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/40"></div>
+
+            <div class="relative grid items-center gap-12 p-6 sm:p-12 lg:grid-cols-[1fr_1.1fr] lg:p-16">
+                <div>
+                    <span class="eyebrow">{t.simEyebrow}</span>
+                    <h3 class="h-display mt-5 text-[clamp(1.9rem,3.6vw,2.8rem)]">
+                        {t.simTitle} <span class="text-gradient-dark">{t.simTitleAccent}</span>
+                    </h3>
+                    <p class="mt-5 max-w-[480px] text-[17px] leading-relaxed text-white/70">
+                        {t.simLead}
+                    </p>
+                    <ul class="mt-7 flex flex-wrap gap-2">
+                        {
+                            t.simTags.map((t) => (
+                                <li class="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-2 text-sm text-white/85">
+                                    <Icon name="check" size={15} class="text-lime" strokeWidth={2.2} /> {t}
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    <a href="#contacto" data-prefill="integration" class="btn btn-lime mt-9">
+                        {t.simCta} <Icon name="arrow" size={18} strokeWidth={2} />
+                    </a>
+                </div>
+
+                <div class="grid min-w-0 items-center gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-3">
+                    {
+                        t.simFlow.map((s, i) => (
+                            <>
+                                <div class="glass-dark grid min-w-0 grid-cols-[72px_1fr] items-center gap-x-4 p-3 text-left sm:flex sm:flex-col sm:p-5 sm:text-center">
+                                    <div class="row-span-2 grid aspect-square w-full place-items-center rounded-2xl bg-white/90 p-2">
+                                        <img src={`${base}img/${simImgs[i].img}.webp`} alt="" width={simImgs[i].w} height={simImgs[i].h} loading="lazy" class="max-h-full w-full object-contain" />
+                                    </div>
+                                    <strong class="self-end font-display text-[15px] font-semibold leading-tight sm:mt-4 sm:self-auto">{s.title}</strong>
+                                    <small class="self-start text-[13px] text-white/55 sm:mt-1">{s.text}</small>
+                                </div>
+                                {i < t.simFlow.length - 1 && (
+                                    <span class="mx-auto grid h-8 w-8 rotate-90 place-items-center rounded-full border border-cyan/30 bg-cyan/10 text-cyan sm:h-10 sm:w-10 sm:rotate-0">
+                                        <Icon name={i === 0 ? "swap" : "arrow"} size={16} strokeWidth={2} />
+                                    </span>
+                                )}
+                            </>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>

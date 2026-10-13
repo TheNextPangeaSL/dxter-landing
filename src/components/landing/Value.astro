@@ -1,0 +1,59 @@
+---
+import Icon from "./Icon.astro";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["value"];
+}
+
+const { t } = Astro.props;
+const benefitIcons = ["flask", "data", "bolt", "constraints"] as const;
+---
+
+<!-- Scene: points become a convergence chart, trial-and-error vs. guided experimentation. -->
+<section id="valor" data-slide class="slide on-dark relative text-white">
+    <div class="relative mx-auto w-full max-w-[1240px] px-5 sm:px-8">
+        <div class="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+            <div>
+                <span class="eyebrow reveal">{t.eyebrow}</span>
+                <h2 class="h-display reveal mt-5 text-[clamp(2.2rem,4.2vw,3.4rem)]">
+                    {t.title} <span class="text-gradient-dark">{t.titleAccent}</span>
+                </h2>
+                <p class="reveal mt-4 max-w-[520px] text-lg leading-relaxed text-white/65">{t.lead}</p>
+
+                <!-- Before / after -->
+                <div class="reveal mt-8 grid gap-3">
+                    <div class="glass-dark p-5">
+                        <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">{t.without}</span>
+                        <strong class="mt-1.5 block font-display text-lg font-semibold tracking-tight text-white/60">{t.withoutTitle}</strong>
+                        <small class="mt-0.5 block text-[14px] text-white/50">{t.withoutText}</small>
+                    </div>
+                    <div class="glass-dark glow-border p-5">
+                        <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-lime">{t.with}</span>
+                        <strong class="mt-1.5 block font-display text-lg font-semibold tracking-tight text-white">{t.withTitle}</strong>
+                        <small class="mt-0.5 block text-[14px] text-white/65">{t.withText}</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage: the scene lays the points out here as a convergence chart -->
+            <div data-scene="value" data-scene-offset="0.85" data-shape="chart" data-label-a={t.without} data-label-b={t.with} class="h-[clamp(260px,44vh,460px)]" aria-hidden="true"></div>
+        </div>
+
+        <div class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {
+                t.benefits.map((b, i) => (
+                    <article class="reveal flex gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                        <span class="icon-tile !h-10 !w-10 !rounded-xl">
+                            <Icon name={benefitIcons[i]} size={18} />
+                        </span>
+                        <div>
+                            <strong class="block font-display text-[15px] font-semibold leading-snug tracking-tight text-white">{b.title}</strong>
+                            <p class="mt-1 text-[13px] leading-relaxed text-white/60">{b.text}</p>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</section>

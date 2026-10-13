@@ -1,0 +1,52 @@
+---
+import Icon from "./Icon.astro";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["team"];
+}
+
+const { t } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const itemIcons = ["globe", "users", "folder", "shield"] as const;
+---
+
+<section id="equipo" data-slide class="slide relative overflow-hidden bg-soft">
+    <div class="mx-auto grid w-full max-w-[1240px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+        <div class="reveal relative order-last lg:order-first">
+            <div class="absolute inset-[10%] rounded-full bg-cyan/15 blur-3xl"></div>
+            <img
+                src={`${base}img/collaboration.webp`}
+                alt=""
+                width="1200"
+                height="676"
+                loading="lazy"
+                class="relative w-full"
+            />
+        </div>
+
+        <div>
+            <span class="eyebrow reveal">{t.eyebrow}</span>
+            <h2 class="h-display reveal mt-5 text-[clamp(2.1rem,4vw,3.2rem)] text-ink">
+                {t.title} <span class="text-gradient">{t.titleAccent}</span>
+            </h2>
+            <p class="reveal mt-4 text-lg leading-relaxed text-muted">
+                {t.lead}
+            </p>
+
+            <div class="mt-8 grid gap-3 sm:grid-cols-2">
+                {
+                    t.items.map((it, i) => (
+                        <div class="card card-hover reveal p-5">
+                            <span class="icon-tile !h-10 !w-10 !rounded-xl">
+                                <Icon name={itemIcons[i]} size={18} />
+                            </span>
+                            <h3 class="mt-4 font-display text-[16px] font-semibold leading-snug tracking-tight text-ink">{it.title}</h3>
+                            <p class="mt-1.5 text-[14px] leading-relaxed text-muted">{it.text}</p>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
+</section>

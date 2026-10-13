@@ -1,0 +1,109 @@
+---
+import Icon from "./Icon.astro";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["contact"];
+}
+
+const { t } = Astro.props;
+const EMAIL = "dxter@thenextpangea.com";
+---
+
+<!-- Scene finale: the points form target rings around the form. -->
+<section id="contacto" data-slide data-scene="contact" class="slide on-dark relative isolate overflow-hidden text-white">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/30 via-navy-950/40 to-navy-950/80"></div>
+
+    <div class="mx-auto grid w-full max-w-[1240px] items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <div>
+            <h2 class="h-display reveal mt-5 text-[clamp(2.6rem,5.6vw,4.6rem)]">
+                {t.title} <span class="text-gradient-dark">{t.titleAccent}</span>
+            </h2>
+            <p class="reveal mt-6 max-w-[500px] text-lg leading-relaxed text-white/70">{t.lead}</p>
+            <div class="reveal mt-9 flex flex-wrap items-center gap-4">
+                <a href="#contact-form" data-boom class="btn btn-primary">
+                    {t.cta} <Icon name="arrow" size={18} strokeWidth={2} />
+                </a>
+                <a href={`mailto:${EMAIL}`} class="inline-flex items-center gap-2 text-[15px] font-medium text-white/80 transition-colors hover:text-cyan">
+                    <Icon name="mail" size={18} />
+                    {EMAIL}
+                </a>
+            </div>
+        </div>
+
+        <form
+            id="contact-form"
+            data-shape="target"
+            class="glass-dark glow-border reveal grid gap-4 rounded-[28px] !bg-navy-950/70 p-6 sm:grid-cols-2 sm:p-9"
+            data-email={EMAIL}
+            data-labels={JSON.stringify(t.mailLabels)}
+            novalidate
+        >
+            <label class="grid gap-2 text-sm font-medium text-white/80">
+                {t.name}
+                <input class="field" name="name" autocomplete="name" placeholder={t.name} required />
+            </label>
+            <label class="grid gap-2 text-sm font-medium text-white/80">
+                {t.company}
+                <input class="field" name="company" autocomplete="organization" placeholder={t.company} required />
+            </label>
+            <label class="grid gap-2 text-sm font-medium text-white/80 sm:col-span-2">
+                {t.email}
+                <input class="field" type="email" name="email" autocomplete="email" placeholder={t.email} required />
+            </label>
+            <label class="grid gap-2 text-sm font-medium text-white/80 sm:col-span-2">
+                {t.reason}
+                <select class="field" name="reason" id="reason" required>
+                    <option value="demo">{t.reasons.demo}</option>
+                    <option value="question">{t.reasons.question}</option>
+                    <option value="integration">{t.reasons.integration}</option>
+                </select>
+            </label>
+            <label class="grid gap-2 text-sm font-medium text-white/80 sm:col-span-2">
+                {t.message}
+                <textarea class="field min-h-[120px] resize-y" name="message" placeholder={t.messagePlaceholder}></textarea>
+            </label>
+            <label class="flex items-start gap-3 text-sm text-white/65 sm:col-span-2">
+                <input type="checkbox" name="privacy" required class="mt-0.5 h-4 w-4 shrink-0 accent-[#50d7e0]" />
+                <span>{t.privacyBefore} <a href="#" class="text-cyan underline underline-offset-2">{t.privacyLink}</a>.</span>
+            </label>
+            <button type="submit" class="btn btn-lime mt-2 !min-h-[54px] sm:col-span-2">
+                {t.submit} <Icon name="arrow" size={18} strokeWidth={2} />
+            </button>
+        </form>
+    </div>
+</section>
+
+<script>
+    const form = document.getElementById("contact-form") as HTMLFormElement | null;
+    const reason = document.getElementById("reason") as HTMLSelectElement | null;
+
+    // CTA buttons can preselect the contact reason.
+    document.querySelectorAll<HTMLAnchorElement>("[data-prefill]").forEach((a) =>
+        a.addEventListener("click", () => {
+            if (reason && a.dataset.prefill) reason.value = a.dataset.prefill;
+        }),
+    );
+
+    // Static hosting: the form composes an email to the team.
+    form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        const L = JSON.parse(form.dataset.labels ?? "{}");
+        const d = new FormData(form);
+        const reasonLabel = reason?.selectedOptions[0]?.text ?? "";
+        const subject = `[DxTER] ${reasonLabel} — ${d.get("company")}`;
+        const body = [
+            `${L.name}: ${d.get("name")}`,
+            `${L.company}: ${d.get("company")}`,
+            `${L.email}: ${d.get("email")}`,
+            `${L.reason}: ${reasonLabel}`,
+            "",
+            String(d.get("message") ?? ""),
+        ].join("\n");
+        window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+</script>

@@ -1,0 +1,198 @@
+---
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["how"];
+}
+
+const { t } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+// Pin positions match the four stations drawn in cycle.webp.
+const pins = [
+    { x: 49.7, y: 17.5 },
+    { x: 84.9, y: 48.3 },
+    { x: 49.7, y: 82.5 },
+    { x: 15.1, y: 48.3 },
+];
+---
+
+<section id="producto" class="on-dark relative text-white">
+    <!--
+        Pinned scrollytelling: while this tall wrapper scrolls, the sticky panel stays put and
+        the scene morphs data → model → prioritised candidates (see scene.ts keys how-*).
+    -->
+    <div id="how-pin" class="relative h-[300svh]">
+        <div data-slide data-scene="how-data" data-scene-offset="0.5" class="absolute inset-x-0 top-0 h-[100svh]"></div>
+        <div data-slide data-scene="how-model" data-scene-offset="0.35" class="absolute inset-x-0 top-[100svh] h-[100svh]"></div>
+        <div data-slide data-scene="how-prior" data-scene-offset="0.35" class="absolute inset-x-0 top-[200svh] h-[100svh]"></div>
+
+        <div class="sticky top-0 isolate flex h-[100svh] items-end pb-10 lg:items-center lg:pb-0">
+            <div class="scrim-left pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+            <div class="mx-auto grid w-full max-w-[1240px] gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_1fr]">
+                <div>
+                    <span class="eyebrow reveal">{t.eyebrow}</span>
+                    <h2 class="h-display reveal mt-5 text-[clamp(2rem,4.4vw,3.6rem)]">
+                        {t.title} <span class="text-gradient-dark">{t.titleAccent}</span>
+                    </h2>
+                    <p class="reveal mt-5 hidden max-w-[520px] text-lg leading-relaxed text-white/65 sm:block">{t.lead}</p>
+
+                    <ol class="reveal relative mt-8 space-y-2 lg:mt-10">
+                        <span class="absolute bottom-4 left-[19px] top-4 w-px bg-white/10" aria-hidden="true"></span>
+                        <span id="how-progress" class="absolute left-[19px] top-4 w-px origin-top bg-gradient-to-b from-cyan to-lime" style="height:calc(100% - 2rem);transform:scaleY(0)" aria-hidden="true"></span>
+                        {
+                            t.steps.map((s, i) => (
+                                <li data-how-step={i} aria-current={i === 0 ? "step" : undefined} class="how-step relative flex gap-5 rounded-2xl p-2 pr-4">
+                                    <span class="how-num relative z-[1] grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 bg-navy-950 font-mono text-xs text-white/50">
+                                        0{i + 1}
+                                    </span>
+                                    <div class="pt-2">
+                                        <h3 class="how-title font-display text-xl font-semibold tracking-tight text-white/45">{s.title}</h3>
+                                        <p class="how-text mt-1.5 text-[15px] leading-relaxed text-white/65">{s.text}</p>
+                                    </div>
+                                </li>
+                            ))
+                        }
+                    </ol>
+                </div>
+                <div class="hidden lg:block" aria-hidden="true"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Iterative cycle -->
+    <div data-slide class="slide mx-auto max-w-[1240px] px-5 sm:px-8">
+        <div id="ciclo" data-scene="cycle" class="glass-dark !bg-navy-950/40 !backdrop-blur-none grid items-center gap-10 !rounded-[32px] p-6 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:p-10">
+            <figure class="reveal relative mx-auto w-full max-w-[400px]">
+                <div class="relative" data-shape="ring">
+                    <img src={`${base}img/cycle.webp`} alt="" width="1000" height="852" loading="lazy" class="w-full" />
+                    {
+                        pins.map((c, i) => (
+                            <span
+                                class="cycle-pin pointer-events-none absolute aspect-square w-[21%] rounded-full border-2 border-lime shadow-[0_0_0_6px_rgba(183,223,77,0.12),0_0_40px_rgba(183,223,77,0.5)]"
+                                style={`left:${c.x}%;top:${c.y}%`}
+                                data-cycle-pin={i}
+                            />
+                        ))
+                    }
+                </div>
+                <figcaption class="mt-4 text-center text-sm leading-relaxed text-white/55">{t.cycleCaption}</figcaption>
+            </figure>
+
+            <div>
+                <span class="eyebrow reveal">{t.cycleEyebrow}</span>
+                <h3 class="h-display reveal mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">
+                    {t.cycleTitle} <span class="text-gradient-dark">{t.cycleTitleAccent}</span>
+                </h3>
+                <p class="reveal mt-4 text-[16px] leading-relaxed text-white/65">{t.cycleLead}</p>
+
+                <div class="mt-6 space-y-1.5" role="tablist" aria-label={t.cycleAria}>
+                    {
+                        t.cycle.map((c, i) => (
+                            <button
+                                type="button"
+                                role="tab"
+                                aria-selected={i === 0 ? "true" : "false"}
+                                data-cycle-step={i}
+                                class="cycle-step relative flex w-full items-start gap-4 overflow-hidden rounded-2xl border border-transparent px-4 py-3 text-left hover:bg-white/[0.04]"
+                            >
+                                <span class="cycle-num grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 font-mono text-xs text-white/55 transition-colors">
+                                    0{i + 1}
+                                </span>
+                                <span>
+                                    <strong class="block font-display text-lg font-semibold tracking-tight text-white">{c.title}</strong>
+                                    <span class="mt-0.5 block text-[15px] leading-relaxed text-white/60">{c.text}</span>
+                                </span>
+                                <span class="cycle-progress absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-cyan to-lime" />
+                            </button>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    /* ---------- Pinned steps: follow scroll progress ---------- */
+    const pin = document.getElementById("how-pin");
+    const steps = Array.from(document.querySelectorAll<HTMLElement>("[data-how-step]"));
+    const bar = document.getElementById("how-progress");
+    let activeStep = -1;
+
+    const updateSteps = () => {
+        if (!pin) return;
+        const r = pin.getBoundingClientRect();
+        const range = r.height - window.innerHeight;
+        const p = Math.min(1, Math.max(0, -r.top / range));
+        const idx = p < 0.25 ? 0 : p < 0.75 ? 1 : 2;
+        if (bar) bar.style.transform = `scaleY(${p.toFixed(3)})`;
+        if (idx === activeStep) return;
+        activeStep = idx;
+        steps.forEach((s, i) => {
+            if (i === idx) s.setAttribute("aria-current", "step");
+            else s.removeAttribute("aria-current");
+            s.dataset.state = i < idx ? "done" : i === idx ? "active" : "next";
+        });
+    };
+    updateSteps();
+    window.addEventListener("scroll", updateSteps, { passive: true });
+    window.addEventListener("resize", updateSteps);
+
+    /* ---------- Iterative cycle tabs ---------- */
+    const cycleSteps = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-cycle-step]"));
+    const pins = Array.from(document.querySelectorAll<HTMLElement>("[data-cycle-pin]"));
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DURATION = 5000;
+    let current = 0;
+    let timer = 0;
+    let autoplay = !reduce;
+
+    const select = (i: number) => {
+        current = i;
+        cycleSteps.forEach((s, j) => {
+            s.setAttribute("aria-selected", String(i === j));
+            const progress = s.querySelector<HTMLElement>(".cycle-progress");
+            if (progress) {
+                progress.classList.remove("is-running");
+                if (i === j && autoplay) {
+                    void progress.offsetWidth; // restart animation
+                    progress.style.setProperty("--cycle-ms", `${DURATION}ms`);
+                    progress.classList.add("is-running");
+                }
+            }
+        });
+        pins.forEach((p, j) => p.classList.toggle("is-active", i === j));
+    };
+
+    const schedule = () => {
+        clearTimeout(timer);
+        if (!autoplay) return;
+        timer = window.setTimeout(() => {
+            select((current + 1) % cycleSteps.length);
+            schedule();
+        }, DURATION);
+    };
+
+    cycleSteps.forEach((s, i) =>
+        s.addEventListener("click", () => {
+            autoplay = false;
+            clearTimeout(timer);
+            select(i);
+        }),
+    );
+
+    const host = document.getElementById("ciclo");
+    if (host && cycleSteps.length) {
+        select(0);
+        new IntersectionObserver(
+            ([e]) => {
+                if (e.isIntersecting && autoplay) {
+                    select(current);
+                    schedule();
+                } else clearTimeout(timer);
+            },
+            { threshold: 0.35 },
+        ).observe(host);
+    }
+</script>

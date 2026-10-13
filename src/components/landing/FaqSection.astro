@@ -1,0 +1,113 @@
+---
+import Icon from "./Icon.astro";
+import { faq } from "@/data/faq";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["faq"];
+    lang: "es" | "en";
+}
+
+const { t, lang } = Astro.props;
+const items = faq[lang];
+const categories = [
+    { key: "tech", label: t.categories.tech },
+    { key: "account", label: t.categories.account },
+];
+---
+
+<section id="faq" data-slide class="slide relative bg-white">
+    <div class="mx-auto grid max-w-[1240px] gap-12 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div class="lg:sticky lg:top-28 lg:self-start">
+            <span class="eyebrow reveal">{t.eyebrow}</span>
+            <h2 class="h-display reveal mt-5 text-[clamp(2.1rem,4vw,3.2rem)] text-ink">
+                {t.title} <span class="text-gradient">{t.titleAccent}</span>
+            </h2>
+            <p class="reveal mt-6 text-lg leading-relaxed text-muted">
+                {t.lead}
+            </p>
+
+            <div class="reveal mt-8 inline-flex flex-wrap gap-1 rounded-2xl bg-soft p-1 ring-1 ring-line sm:rounded-full" role="tablist" aria-label={t.tabsAria}>
+                {
+                    categories.map((c, i) => (
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={i === 0 ? "true" : "false"}
+                            data-faq-tab={c.key}
+                            class="seg-btn rounded-full px-5 py-2.5 text-sm font-medium text-muted"
+                        >
+                            {c.label}
+                        </button>
+                    ))
+                }
+            </div>
+
+            <div class="reveal mt-10 hidden rounded-3xl border border-line bg-soft p-6 lg:block">
+                <p class="font-display text-lg font-semibold tracking-tight text-ink">{t.asideTitle}</p>
+                <p class="mt-1 text-[15px] leading-relaxed text-muted">
+                    {t.asideText}
+                </p>
+                <a href="#contacto" data-prefill="question" class="mt-4 inline-flex items-center gap-2 text-[15px] font-semibold text-teal hover:gap-3 transition-all">
+                    {t.asideCta} <Icon name="arrow" size={16} strokeWidth={2} />
+                </a>
+            </div>
+        </div>
+
+        <div class="faq-list space-y-2.5 lg:max-h-[calc(100svh-150px)] lg:overflow-y-auto lg:overscroll-contain lg:pr-2">
+            {
+                items.map((f) => (
+                    <details
+                        class="faq-item group rounded-2xl border border-line bg-white transition-all"
+                        data-faq-category={f.category}
+                        hidden={f.category !== "tech"}
+                    >
+                        <summary class="flex items-center justify-between gap-6 px-5 py-4 sm:px-6">
+                            <span class="font-display text-[17px] font-semibold leading-snug tracking-tight text-ink sm:text-lg">{f.q}</span>
+                            <span class="faq-icon grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line text-ink">
+                                <Icon name="plus" size={16} strokeWidth={2} />
+                            </span>
+                        </summary>
+                        <div class="faq-body px-5 pb-6 text-[15px] leading-relaxed text-muted sm:px-6">
+                            <p set:html={f.intro} />
+                            {f.items && (
+                                <dl class="mt-4 grid gap-2">
+                                    {f.items.map(([label, text]) => (
+                                        <div class="rounded-xl bg-soft px-4 py-3">
+                                            <dt class="font-semibold text-ink">{label}</dt>
+                                            <dd class="mt-0.5" set:html={text} />
+                                        </div>
+                                    ))}
+                                </dl>
+                            )}
+                            {f.outro && <p class="mt-4" set:html={f.outro} />}
+                        </div>
+                    </details>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-faq-tab]"));
+    const items = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-faq-category]"));
+
+    tabs.forEach((tab) =>
+        tab.addEventListener("click", () => {
+            const key = tab.dataset.faqTab;
+            tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+            items.forEach((d) => {
+                d.hidden = d.dataset.faqCategory !== key;
+                d.open = false;
+            });
+        }),
+    );
+
+    // Keep a single question open at a time.
+    items.forEach((d) =>
+        d.addEventListener("toggle", () => {
+            if (d.open) items.forEach((o) => o !== d && (o.open = false));
+        }),
+    );
+</script>

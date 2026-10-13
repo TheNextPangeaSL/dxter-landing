@@ -1,0 +1,65 @@
+---
+import LandingLayout from "@/layouts/LandingLayout.astro";
+import Nav from "./Nav.astro";
+import Hero from "./Hero.astro";
+import Challenge from "./Challenge.astro";
+import Value from "./Value.astro";
+import HowItWorks from "./HowItWorks.astro";
+import Platform from "./Platform.astro";
+import UseCases from "./UseCases.astro";
+import Team from "./Team.astro";
+import Pricing from "./Pricing.astro";
+import Credits from "./Credits.astro";
+import FaqSection from "./FaqSection.astro";
+import Contact from "./Contact.astro";
+import Footer from "./Footer.astro";
+import { es } from "@/i18n/es";
+import { en } from "@/i18n/en";
+
+interface Props {
+    lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+const t = lang === "en" ? en : es;
+---
+
+<LandingLayout t={t}>
+    <!-- Fixed immersive backdrop: glows + grid + the morphing scene canvas -->
+    <div id="scene-wrap" class="reveal pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+        <div class="absolute -top-40 right-[-10%] h-[640px] w-[640px] rounded-full bg-teal/25 blur-[140px]"></div>
+        <div class="absolute bottom-[-20%] left-[-10%] h-[520px] w-[520px] rounded-full bg-cyan/10 blur-[120px]"></div>
+        <div class="grid-bg absolute inset-0 [mask-image:radial-gradient(ellipse_at_60%_50%,#000_5%,transparent_70%)]"></div>
+        <canvas id="scene" class="absolute inset-0 h-full w-full"></canvas>
+    </div>
+
+    <Nav t={t.nav} lang={lang} />
+    <main class="relative z-[1]">
+        <Hero t={t.hero} />
+        <Challenge t={t.challenge} />
+        <Value t={t.value} />
+        <HowItWorks t={t.how} />
+        <Platform t={t.platform} />
+        <div data-scene="hide" data-scene-offset="1"></div>
+        <UseCases t={t.cases} />
+        <Team t={t.team} />
+        <Pricing t={t.pricing} />
+        <Credits t={t.credits} />
+        <FaqSection t={t.faq} lang={lang} />
+        <div data-scene="hide" data-scene-offset="1.1"></div>
+        <Contact t={t.contact} />
+    </main>
+    <Footer t={t.footer} />
+</LandingLayout>
+
+<script>
+    import { initScene } from "@/scripts/scene";
+    import { initBoom } from "@/scripts/boom";
+    import { initSnap } from "@/scripts/snap";
+    import "@/scripts/motion";
+
+    const canvas = document.getElementById("scene") as HTMLCanvasElement | null;
+    if (canvas) initScene(canvas);
+    initBoom();
+    initSnap();
+</script>

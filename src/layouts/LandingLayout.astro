@@ -1,0 +1,55 @@
+---
+import "../styles/landing.css";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict;
+}
+
+const { t } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const ogImage = new URL(`${base}img/value.webp`, Astro.site).href;
+const alternates = [
+    { lang: "es", href: new URL(base, Astro.site).href },
+    { lang: "en", href: new URL(`${base}en/`, Astro.site).href },
+];
+---
+
+<!doctype html>
+<html lang={t.lang} class="no-js">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={t.meta.description} />
+        <meta name="theme-color" content="#001823" />
+        <meta name="generator" content={Astro.generator} />
+
+        {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+        <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
+
+        <meta property="og:title" content={t.meta.title} />
+        <meta property="og:description" content={t.meta.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content={t.meta.locale} />
+        <meta property="og:url" content="https://dxter.ai" />
+        <meta property="og:image" content={ogImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <link rel="icon" type="image/png" href={`${base}img/favicon.png`} />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        <title>{t.meta.title}</title>
+        <script is:inline>
+            document.documentElement.classList.remove("no-js");
+        </script>
+    </head>
+    <body class="bg-navy-950">
+        <slot />
+    </body>
+</html>

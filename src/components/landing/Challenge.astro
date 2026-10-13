@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+import type { Dict } from "@/i18n/es";
+
+interface Props {
+    t: Dict["challenge"];
+}
+
+const { t } = Astro.props;
+const driverIcons = ["variables", "target", "constraints"] as const;
+const impactIcons = ["flask", "clock", "coins", "flag"] as const;
+---
+
+<!-- Scene: points scatter into a 3D cloud (many variables), then expand behind the impact band. -->
+<section id="reto" data-scene="reto" class="on-dark relative isolate text-white">
+    <div class="scrim-left pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="mx-auto max-w-[1240px] px-5 sm:px-8">
+        <div data-slide class="slide">
+        <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
+            <div>
+                <span class="eyebrow reveal">{t.eyebrow}</span>
+                <h2 class="h-display reveal mt-5 text-[clamp(2.2rem,4.6vw,3.6rem)]">
+                    {t.title} <span class="text-gradient-dark">{t.titleAccent}</span>
+                </h2>
+                <p class="reveal mt-6 max-w-[580px] text-lg leading-relaxed text-white/65">{t.lead}</p>
+
+                <ul class="mt-10 space-y-3">
+                    {
+                        t.drivers.map((d, i) => (
+                            <li class="reveal group flex gap-4 rounded-2xl border border-white/0 p-4 transition-colors hover:border-white/10 hover:bg-white/[0.03]">
+                                <span class="icon-tile">
+                                    <Icon name={driverIcons[i]} />
+                                </span>
+                                <div>
+                                    <h3 class="font-display text-lg font-semibold tracking-tight text-white">{d.title}</h3>
+                                    <p class="mt-1 text-[15px] leading-relaxed text-white/60">{d.text}</p>
+                                </div>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+            <!-- right column left empty: the scene's point cloud lives here -->
+            <div class="hidden lg:block" aria-hidden="true"></div>
+        </div>
+        </div>
+
+        <!-- Business impact -->
+        <div data-slide data-scene="impact" data-scene-offset="0.35" class="slide">
+            <p class="h-display reveal max-w-[760px] text-[clamp(1.6rem,3.2vw,2.5rem)] !leading-tight">
+                {t.impactTitle} <span class="text-gradient-dark">{t.impactAccent}</span>
+            </p>
+            <div data-shape="bars" class="reveal mt-[clamp(150px,27vh,280px)] grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-4">
+                {
+                    t.impact.map((m, i) => (
+                        <article class="group relative bg-navy-900/80 p-7 transition-colors hover:bg-navy-800/90">
+                            <div class="flex items-center justify-between">
+                                <span class="icon-tile">
+                                    <Icon name={impactIcons[i]} />
+                                </span>
+                                <span class="font-mono text-xs text-white/30">0{i + 1}</span>
+                            </div>
+                            <strong class="mt-8 block font-display text-xl font-semibold tracking-tight text-white">{m.title}</strong>
+                            <p class="mt-2 text-[15px] leading-relaxed text-white/60">{m.text}</p>
+                            <span class="absolute inset-x-7 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-cyan to-lime transition-transform duration-500 group-hover:scale-x-100" />
+                        </article>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
+</section>
